@@ -1,0 +1,3 @@
+services:
+  fcp-fdm-pay-adapter:
+    command: npm run test:watch
