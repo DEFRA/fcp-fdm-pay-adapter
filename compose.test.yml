@@ -1,0 +1,10 @@
+name: fcp-fdm-pay-adapter-test
+
+services:
+  fcp-fdm-pay-adapter:
+    build:
+      target: development
+    command: npm test
+    volumes:
+      - ./test:/home/node/test
+      - ./coverage:/home/node/coverage

@@ -1,43 +1,23 @@
-# fcp-fdm-pay-adapter
+![Build](https://github.com/defra/fcp-fdm-pay-adapter/actions/workflows/publish.yml/badge.svg)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_fcp-fdm-pay-adapter&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=DEFRA_fcp-fdm-pay-adapter)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_fcp-fdm-pay-adapter&metric=bugs)](https://sonarcloud.io/summary/new_code?id=DEFRA_fcp-fdm-pay-adapter)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_fcp-fdm-pay-adapter&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=DEFRA_fcp-fdm-pay-adapter)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_fcp-fdm-pay-adapter&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=DEFRA_fcp-fdm-pay-adapter)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_fcp-fdm-pay-adapter&metric=coverage)](https://sonarcloud.io/summary/new_code?id=DEFRA_fcp-fdm-pay-adapter)
 
-Core delivery platform Node.js Backend Template.
+# Farming Data Model (FDM) Payment Hub Adapter
 
-- [Requirements](#requirements)
-  - [Node.js](#nodejs)
-- [Local development](#local-development)
-  - [Setup](#setup)
-  - [Development](#development)
-  - [Testing](#testing)
-  - [Production](#production)
-  - [Npm scripts](#npm-scripts)
-  - [Update dependencies](#update-dependencies)
-  - [Formatting](#formatting)
-    - [Windows prettier issue](#windows-prettier-issue)
-- [API endpoints](#api-endpoints)
-- [Development helpers](#development-helpers)
-  - [Proxy](#proxy)
-- [Docker](#docker)
-  - [Development image](#development-image)
-  - [Production image](#production-image)
-  - [Docker Compose](#docker-compose)
-  - [Dependabot](#dependabot)
-  - [SonarCloud](#sonarcloud)
-- [Licence](#licence)
-  - [About the licence](#about-the-licence)
+The FDM Payment Hub Adapter consumes payment events from Azure Service Bus and forwards them to the CDP hosted Farming Data Model.
 
 ## Requirements
 
-### Node.js
+### Docker
 
-Please install [Node.js](http://nodejs.org/) `>= v22` and [npm](https://nodejs.org/) `>= v11`. You will find it
-easier to use the Node Version Manager [nvm](https://github.com/creationix/nvm)
+This application is intended to be run in a Docker container to ensure consistency across environments.
 
-To use the correct version of Node.js for this application, via nvm:
+Docker can be installed from [Docker's official website](https://docs.docker.com/get-docker/).
 
-```bash
-cd fcp-fdm-pay-adapter
-nvm use
-```
+> The test suite includes integration tests which are dependent on a Postgres container so cannot be run without Docker.
 
 ## Local development
 
@@ -54,7 +34,7 @@ npm install
 To run the application in `development` mode run:
 
 ```bash
-npm run dev
+npm run docker:dev
 ```
 
 ### Testing
@@ -62,130 +42,14 @@ npm run dev
 To test the application run:
 
 ```bash
-npm run test
+npm run docker:test
 ```
 
-### Production
-
-To mimic the application running in `production` mode locally run:
+Tests can also be run in watch mode to support Test Driven Development (TDD):
 
 ```bash
-npm start
+npm run docker:test:watch
 ```
-
-### Npm scripts
-
-All available Npm scripts can be seen in [package.json](./package.json).
-To view them in your command line run:
-
-```bash
-npm run
-```
-
-### Update dependencies
-
-To update dependencies use [npm-check-updates](https://github.com/raineorshine/npm-check-updates):
-
-> The following script is a good start. Check out all the options on
-> the [npm-check-updates](https://github.com/raineorshine/npm-check-updates)
-
-```bash
-ncu --interactive --format group
-```
-
-### Formatting
-
-#### Windows prettier issue
-
-If you are having issues with formatting of line breaks on Windows update your global git config by running:
-
-```bash
-git config --global core.autocrlf false
-```
-
-## API endpoints
-
-| Endpoint             | Description                    |
-| :------------------- | :----------------------------- |
-| `GET: /health`       | Health                         |
-| `GET: /example    `  | Example API (remove as needed) |
-| `GET: /example/<id>` | Example API (remove as needed) |
-
-## Development helpers
-
-### Proxy
-
-We are using forward-proxy which is set up by default. To make use of this: `import { fetch } from 'undici'` then
-because of the `setGlobalDispatcher(new ProxyAgent(proxyUrl))` calls will use the ProxyAgent Dispatcher
-
-If you are not using Wreck, Axios or Undici or a similar http that uses `Request`. Then you may have to provide the
-proxy dispatcher:
-
-To add the dispatcher to your own client:
-
-```javascript
-import { ProxyAgent } from 'undici'
-
-return await fetch(url, {
-  dispatcher: new ProxyAgent({
-    uri: proxyUrl,
-    keepAliveTimeout: 10,
-    keepAliveMaxTimeout: 10
-  })
-})
-```
-
-## Docker
-
-### Development image
-
-Build:
-
-```bash
-docker build --target development --no-cache --tag fcp-fdm-pay-adapter:development .
-```
-
-Run:
-
-```bash
-docker run -e PORT=3001 -p 3001:3001 fcp-fdm-pay-adapter:development
-```
-
-### Production image
-
-Build:
-
-```bash
-docker build --no-cache --tag fcp-fdm-pay-adapter .
-```
-
-Run:
-
-```bash
-docker run -e PORT=3001 -p 3001:3001 fcp-fdm-pay-adapter
-```
-
-### Docker Compose
-
-A local environment with:
-
-- Localstack for AWS services (S3, SQS)
-- Redis
-- This service.
-- A commented out frontend example.
-
-```bash
-docker compose up --build -d
-```
-
-### Dependabot
-
-We have added an example dependabot configuration file to the repository. You can enable it by renaming
-the [.github/example.dependabot.yml](.github/example.dependabot.yml) to `.github/dependabot.yml`
-
-### SonarCloud
-
-Instructions for setting up SonarCloud can be found in [sonar-project.properties](./sonar-project.properties)
 
 ## Licence
 
