@@ -106,7 +106,7 @@ const config = convict({
         doc: 'AWS SNS topic ARN',
         format: String,
         env: 'AWS_SNS_TOPIC_ARN',
-        default: 'placeholder-topic-arn'
+        default: null
       }
     }
   },
