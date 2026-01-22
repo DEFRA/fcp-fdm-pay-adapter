@@ -18,8 +18,7 @@ services:
       AZURE_SERVICE_BUS_USERNAME: RootManageSharedAccessKey
       AZURE_SERVICE_BUS_PASSWORD: SAS_KEY_VALUE
       AZURE_SERVICE_BUS_EMULATOR: "true"
-      AZURE_SERVICE_BUS_TOPIC_NAME: fcp-pay-events
-      AZURE_SERVICE_BUS_SUBSCRIPTION_NAME: fcp-fdm
+      AZURE_SERVICE_BUS_TOPIC_NAME: ffc-pay-events
     volumes:
       - ./src:/home/node/src
       - ./package.json:/home/node/package.json

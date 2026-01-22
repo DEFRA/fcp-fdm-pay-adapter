@@ -142,7 +142,7 @@ const config = convict({
         doc: 'Azure Service Bus Subscription Name',
         format: String,
         env: 'AZURE_SERVICE_BUS_SUBSCRIPTION_NAME',
-        default: null
+        default: 'fcp-fdm'
       },
       useEmulator: {
         doc: 'Flag to indicate if the Azure Service Bus Emulator is being used',

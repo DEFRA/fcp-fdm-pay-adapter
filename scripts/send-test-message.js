@@ -1,7 +1,7 @@
 import { ServiceBusClient } from '@azure/service-bus'
 
 const connectionString = 'Endpoint=sb://localhost:5672;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=SAS_KEY_VALUE;UseDevelopmentEmulator=true'
-const topicName = 'fcp-pay-events'
+const topicName = 'ffc-pay-events'
 
 const message = {
   specversion: '1.0',
