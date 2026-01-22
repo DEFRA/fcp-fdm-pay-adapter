@@ -10,12 +10,6 @@ const logger = createLogger()
 let sbClient = null
 let sbReceiver = null
 
-function getConnectionString () {
-  return serviceBusConfig.useEmulator
-    ? `Endpoint=sb://${serviceBusConfig.host};SharedAccessKeyName=${serviceBusConfig.username};SharedAccessKey=${serviceBusConfig.password};UseDevelopmentEmulator=true;`
-    : `Endpoint=sb://${serviceBusConfig.host}.servicebus.windows.net;SharedAccessKeyName=${serviceBusConfig.username};SharedAccessKey=${serviceBusConfig.password}`
-}
-
 export function startPolling () {
   if (!config.get('active')) {
     return
@@ -41,9 +35,17 @@ export async function pollForEvents () {
   sbReceiver = sbClient.createReceiver(serviceBusConfig.topicName, serviceBusConfig.subscriptionName)
 
   sbReceiver.subscribe({
-    processMessage: processEvent,
+    processMessage: (message) => processEvent(message, sbReceiver),
     processError: async (args) => {
       logger.error(args.error, 'Service Bus error occurred')
     }
+  }, {
+    autoCompleteMessages: false
   })
+}
+
+function getConnectionString () {
+  return serviceBusConfig.useEmulator
+    ? `Endpoint=sb://${serviceBusConfig.host};SharedAccessKeyName=${serviceBusConfig.username};SharedAccessKey=${serviceBusConfig.password};UseDevelopmentEmulator=true;`
+    : `Endpoint=sb://${serviceBusConfig.host}.servicebus.windows.net;SharedAccessKeyName=${serviceBusConfig.username};SharedAccessKey=${serviceBusConfig.password}`
 }

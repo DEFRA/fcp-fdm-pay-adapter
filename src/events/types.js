@@ -8,7 +8,9 @@ function getEventType (type) {
   } else if (type.startsWith('uk.gov.defra.ffc.pay.batch.')) {
     return 'batch'
   } else {
-    throw new Error(`Unknown event type: ${type}`)
+    const error = new Error(`Unknown event type: ${type}`)
+    error.category = 'VALIDATION'
+    throw error
   }
 }
 
