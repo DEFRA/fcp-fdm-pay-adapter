@@ -43,9 +43,6 @@ services:
     image: mcr.microsoft.com/azure-messaging/servicebus-emulator
     volumes:
       - './sb-config.json:/ServiceBus_Emulator/ConfigFiles/Config.json'
-    ports:
-      - '5672:5672'
-      - '5300:5300'
     environment:
       SQL_SERVER: mssql
       MSSQL_SA_PASSWORD: Some-really-strong-password!123

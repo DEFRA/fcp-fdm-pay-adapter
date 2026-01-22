@@ -108,47 +108,47 @@ const config = convict({
         env: 'AWS_SNS_TOPIC_ARN',
         default: null
       }
-    },
-    azure: {
-      serviceBus: {
-        host: {
-          doc: 'Azure Service Bus Namespace Host',
-          format: String,
-          env: 'AZURE_SERVICE_BUS_HOST',
-          default: null
-        },
-        username: {
-          doc: 'Azure Service Bus Shared Access Key Name',
-          format: String,
-          env: 'AZURE_SERVICE_BUS_USERNAME',
-          nullable: true,
-          default: null
-        },
-        password: {
-          doc: 'Azure Service Bus Shared Access Key Value',
-          format: String,
-          env: 'AZURE_SERVICE_BUS_PASSWORD',
-          nullable: true,
-          default: null
-        },
-        topicName: {
-          doc: 'Azure Service Bus Topic Name',
-          format: String,
-          env: 'AZURE_SERVICE_BUS_TOPIC_NAME',
-          default: null
-        },
-        subscriptionName: {
-          doc: 'Azure Service Bus Subscription Name',
-          format: String,
-          env: 'AZURE_SERVICE_BUS_SUBSCRIPTION_NAME',
-          default: null
-        },
-        useEmulator: {
-          doc: 'Flag to indicate if the Azure Service Bus Emulator is being used',
-          format: Boolean,
-          env: 'AZURE_SERVICE_BUS_EMULATOR',
-          default: false
-        }
+    }
+  },
+  azure: {
+    serviceBus: {
+      host: {
+        doc: 'Azure Service Bus Namespace Host',
+        format: String,
+        env: 'AZURE_SERVICE_BUS_HOST',
+        default: null
+      },
+      username: {
+        doc: 'Azure Service Bus Shared Access Key Name',
+        format: String,
+        env: 'AZURE_SERVICE_BUS_USERNAME',
+        nullable: true,
+        default: null
+      },
+      password: {
+        doc: 'Azure Service Bus Shared Access Key Value',
+        format: String,
+        env: 'AZURE_SERVICE_BUS_PASSWORD',
+        nullable: true,
+        default: null
+      },
+      topicName: {
+        doc: 'Azure Service Bus Topic Name',
+        format: String,
+        env: 'AZURE_SERVICE_BUS_TOPIC_NAME',
+        default: null
+      },
+      subscriptionName: {
+        doc: 'Azure Service Bus Subscription Name',
+        format: String,
+        env: 'AZURE_SERVICE_BUS_SUBSCRIPTION_NAME',
+        default: null
+      },
+      useEmulator: {
+        doc: 'Flag to indicate if the Azure Service Bus Emulator is being used',
+        format: Boolean,
+        env: 'AZURE_SERVICE_BUS_EMULATOR',
+        default: false
       }
     }
   },
