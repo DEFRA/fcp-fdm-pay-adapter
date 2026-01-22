@@ -43,7 +43,7 @@ export async function pollForEvents () {
   sbReceiver.subscribe({
     processMessage: processEvent,
     processError: async (args) => {
-      logger.error(args.error, 'Unable to process event')
+      logger.error(args.error, 'Service Bus error occurred')
     }
   })
 }
