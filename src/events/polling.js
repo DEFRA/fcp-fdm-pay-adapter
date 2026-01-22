@@ -1,3 +1,5 @@
+import WebSocket from 'ws'
+import { HttpsProxyAgent } from 'https-proxy-agent'
 import { ServiceBusClient } from '@azure/service-bus'
 import { createLogger } from '../common/helpers/logging/logger.js'
 import { processEvent } from './process.js'
@@ -31,7 +33,7 @@ export function stopPolling () {
 }
 
 export async function pollForEvents () {
-  sbClient = new ServiceBusClient(getConnectionString())
+  sbClient = new ServiceBusClient(getConnectionString(), { ...getWebSocketOptions() })
   sbReceiver = sbClient.createReceiver(serviceBusConfig.topicName, serviceBusConfig.subscriptionName)
 
   sbReceiver.subscribe({
@@ -48,4 +50,16 @@ function getConnectionString () {
   return serviceBusConfig.useEmulator
     ? `Endpoint=sb://${serviceBusConfig.host};SharedAccessKeyName=${serviceBusConfig.username};SharedAccessKey=${serviceBusConfig.password};UseDevelopmentEmulator=true;`
     : `Endpoint=sb://${serviceBusConfig.host}.servicebus.windows.net;SharedAccessKeyName=${serviceBusConfig.username};SharedAccessKey=${serviceBusConfig.password}`
+}
+
+function getWebSocketOptions () {
+  const proxyUrl = config.get('httpProxy')
+  return proxyUrl
+    ? {
+        webSocket: WebSocket,
+        webSocketConstructorOptions: {
+          agent: new HttpsProxyAgent(proxyUrl),
+        },
+      }
+    : {}
 }
