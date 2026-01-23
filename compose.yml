@@ -51,7 +51,6 @@ services:
       - mssql
 
   mssql:
-    container_name: "mssql"
     image: "mcr.microsoft.com/mssql/server:2022-latest"
     environment:
       ACCEPT_EULA: "Y"

@@ -21,6 +21,18 @@ describe('config', () => {
     process.env.ENABLE_SECURE_CONTEXT = 'true'
     process.env.ENABLE_METRICS = 'true'
     process.env.TRACING_HEADER = 'x-custom-trace-id'
+    process.env.ACTIVE = 'true'
+    process.env.AWS_REGION = 'eu-west-2'
+    process.env.AWS_ENDPOINT_URL = 'http://localstack:4566'
+    process.env.AWS_ACCESS_KEY_ID = 'test-key-id'
+    process.env.AWS_SECRET_ACCESS_KEY = 'test-secret-key'
+    process.env.AWS_SNS_TOPIC_ARN = 'arn:aws:sns:eu-west-2:000000000000:test-topic'
+    process.env.AZURE_SERVICE_BUS_HOST = 'test-servicebus.servicebus.windows.net'
+    process.env.AZURE_SERVICE_BUS_USERNAME = 'test-username'
+    process.env.AZURE_SERVICE_BUS_PASSWORD = 'test-password'
+    process.env.AZURE_SERVICE_BUS_TOPIC_NAME = 'test-topic'
+    process.env.AZURE_SERVICE_BUS_SUBSCRIPTION_NAME = 'test-subscription'
+    process.env.AZURE_SERVICE_BUS_EMULATOR = 'false'
   })
 
   afterAll(() => {
@@ -170,5 +182,85 @@ describe('config', () => {
     delete process.env.TRACING_HEADER
     const { config } = await import('../../src/config.js')
     expect(config.get('tracing.header')).toBe('x-cdp-request-id')
+  })
+
+  test('should return active flag from environment variable', async () => {
+    const { config } = await import('../../src/config.js')
+    expect(config.get('active')).toBe(true)
+  })
+
+  test('should default active flag to true if not provided in environment variable', async () => {
+    delete process.env.ACTIVE
+    const { config } = await import('../../src/config.js')
+    expect(config.get('active')).toBe(true)
+  })
+
+  test('should return AWS region from environment variable', async () => {
+    const { config } = await import('../../src/config.js')
+    expect(config.get('aws.region')).toBe('eu-west-2')
+  })
+
+  test('should default AWS region to eu-west-2 if not provided in environment variable', async () => {
+    delete process.env.AWS_REGION
+    const { config } = await import('../../src/config.js')
+    expect(config.get('aws.region')).toBe('eu-west-2')
+  })
+
+  test('should return AWS endpoint URL from environment variable', async () => {
+    const { config } = await import('../../src/config.js')
+    expect(config.get('aws.endpoint')).toBe('http://localstack:4566')
+  })
+
+  test('should default AWS endpoint URL to null if not provided in environment variable', async () => {
+    delete process.env.AWS_ENDPOINT_URL
+    const { config } = await import('../../src/config.js')
+    expect(config.get('aws.endpoint')).toBeNull()
+  })
+
+  test('should return AWS SNS topic ARN from environment variable', async () => {
+    const { config } = await import('../../src/config.js')
+    expect(config.get('aws.sns.topicArn')).toBe('arn:aws:sns:eu-west-2:000000000000:test-topic')
+  })
+
+  test('should return Azure Service Bus host from environment variable', async () => {
+    const { config } = await import('../../src/config.js')
+    expect(config.get('azure.serviceBus.host')).toBe('test-servicebus.servicebus.windows.net')
+  })
+
+  test('should return Azure Service Bus username from environment variable', async () => {
+    const { config } = await import('../../src/config.js')
+    expect(config.get('azure.serviceBus.username')).toBe('test-username')
+  })
+
+  test('should return Azure Service Bus password from environment variable', async () => {
+    const { config } = await import('../../src/config.js')
+    expect(config.get('azure.serviceBus.password')).toBe('test-password')
+  })
+
+  test('should return Azure Service Bus topic name from environment variable', async () => {
+    const { config } = await import('../../src/config.js')
+    expect(config.get('azure.serviceBus.topicName')).toBe('test-topic')
+  })
+
+  test('should return Azure Service Bus subscription name from environment variable', async () => {
+    const { config } = await import('../../src/config.js')
+    expect(config.get('azure.serviceBus.subscriptionName')).toBe('test-subscription')
+  })
+
+  test('should default Azure Service Bus subscription name to fcp-fdm if not provided in environment variable', async () => {
+    delete process.env.AZURE_SERVICE_BUS_SUBSCRIPTION_NAME
+    const { config } = await import('../../src/config.js')
+    expect(config.get('azure.serviceBus.subscriptionName')).toBe('fcp-fdm')
+  })
+
+  test('should return Azure Service Bus useEmulator flag from environment variable', async () => {
+    const { config } = await import('../../src/config.js')
+    expect(config.get('azure.serviceBus.useEmulator')).toBe(false)
+  })
+
+  test('should default Azure Service Bus useEmulator flag to false if not provided in environment variable', async () => {
+    delete process.env.AZURE_SERVICE_BUS_EMULATOR
+    const { config } = await import('../../src/config.js')
+    expect(config.get('azure.serviceBus.useEmulator')).toBe(false)
   })
 })
