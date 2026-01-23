@@ -17,6 +17,18 @@ services:
     networks:
       - fcp-fdm
 
+  service-bus:
+    image: mcr.microsoft.com/azure-messaging/servicebus-emulator
+    ports:
+      - '5672:5672'
+      - '5300:5300'
+    networks:
+      - fcp-fdm
+
+  mssql:
+    networks:
+      - fcp-fdm
+
 networks:
   fcp-fdm:
     driver: bridge

@@ -6,15 +6,24 @@ services:
     depends_on:
       localstack:
         condition: service_healthy
+      service-bus:
+        condition: service_started
     environment:
       AWS_REGION: eu-west-2
       AWS_ACCESS_KEY_ID: test
       AWS_SECRET_ACCESS_KEY: test
       AWS_SNS_TOPIC_ARN: arn:aws:sns:eu-west-2:000000000000:fcp_fdm_pay_events
       AWS_ENDPOINT_URL: http://localstack:4566
+      AZURE_SERVICE_BUS_HOST: service-bus
+      AZURE_SERVICE_BUS_USERNAME: RootManageSharedAccessKey
+      AZURE_SERVICE_BUS_PASSWORD: SAS_KEY_VALUE
+      AZURE_SERVICE_BUS_EMULATOR: "true"
+      AZURE_SERVICE_BUS_TOPIC_NAME: ffc-pay-events
     volumes:
       - ./src:/home/node/src
       - ./package.json:/home/node/package.json
+      - ./scripts/wait-for-service-bus.sh:/home/node/wait-for-service-bus.sh
+    command: sh -c "./wait-for-service-bus.sh && npm run dev"
 
   localstack:
     image: localstack/localstack
@@ -28,3 +37,21 @@ services:
       interval: 5s
       start_period: 5s
       retries: 3
+
+  service-bus:
+    image: mcr.microsoft.com/azure-messaging/servicebus-emulator
+    volumes:
+      - './sb-config.json:/ServiceBus_Emulator/ConfigFiles/Config.json'
+    environment:
+      SQL_SERVER: mssql
+      MSSQL_SA_PASSWORD: Some-really-strong-password!123
+      ACCEPT_EULA: "Y"
+      EMULATOR_HTTP_PORT: "5300"
+    depends_on:
+      - mssql
+
+  mssql:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: Some-really-strong-password!123

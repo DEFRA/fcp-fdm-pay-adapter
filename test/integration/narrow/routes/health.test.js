@@ -3,6 +3,11 @@ import { describe, test, beforeEach, afterEach, vi, expect } from 'vitest'
 
 const { HTTP_STATUS_OK } = httpConstants
 
+vi.mock('../../../../src/events/polling.js', () => ({
+  startPolling: vi.fn(),
+  stopPolling: vi.fn()
+}))
+
 const { createServer } = await import('../../../../src/server.js')
 
 let server
@@ -34,5 +39,14 @@ describe('health routes', () => {
     }
     const response = await server.inject(options)
     expect(JSON.parse(response.payload).message).toBe('success')
+  })
+
+  test('GET /health should return valid JSON', async () => {
+    const options = {
+      method: 'GET',
+      url: '/health'
+    }
+    const response = await server.inject(options)
+    expect(() => JSON.parse(response.payload)).not.toThrow()
   })
 })
