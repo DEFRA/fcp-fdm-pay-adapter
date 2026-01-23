@@ -1,6 +1,6 @@
 import schema from './schema.js'
 
-export async function validateEvent (event, eventType) {
+export async function validateEvent (event) {
   const validationResult = schema.validate(event, { abortEarly: false, allowUnknown: true, stripUnknown: true })
 
   if (validationResult.error) {

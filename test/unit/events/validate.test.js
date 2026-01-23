@@ -24,8 +24,6 @@ const testEvent = {
   }
 }
 
-const testEventType = 'payment'
-
 describe('validateEvent', () => {
   beforeEach(async () => {
     vi.clearAllMocks()
@@ -34,12 +32,12 @@ describe('validateEvent', () => {
   })
 
   test('should validate event payload against schema allowing unknown properties', async () => {
-    await validateEvent(testEvent, testEventType)
+    await validateEvent(testEvent)
     expect(mockSchemaValidate).toHaveBeenCalledWith(testEvent, { abortEarly: false, allowUnknown: true, stripUnknown: true })
   })
 
   test('should not throw error if validation passes', async () => {
-    await expect(validateEvent(testEvent, testEventType)).resolves.not.toThrow()
+    await expect(validateEvent(testEvent)).resolves.not.toThrow()
   })
 
   test('should throw error with VALIDATION category if event validation fails', async () => {
@@ -47,7 +45,7 @@ describe('validateEvent', () => {
     mockSchemaValidate.mockReturnValueOnce({ error: validationError })
 
     try {
-      await validateEvent(testEvent, testEventType)
+      await validateEvent(testEvent)
       expect.fail('Should have thrown an error')
     } catch (error) {
       expect(error.message).toBe(`Event is invalid, ${validationError.message}`)
@@ -60,7 +58,7 @@ describe('validateEvent', () => {
     mockSchemaValidate.mockReturnValueOnce({ error: validationError })
 
     try {
-      await validateEvent(testEvent, testEventType)
+      await validateEvent(testEvent)
       expect.fail('Should have thrown an error')
     } catch (error) {
       expect(error.message).toBe('Event is invalid, "data.frn" must be a number')
@@ -73,7 +71,7 @@ describe('validateEvent', () => {
     mockSchemaValidate.mockReturnValueOnce({ error: validationError })
 
     try {
-      await validateEvent(testEvent, testEventType)
+      await validateEvent(testEvent)
       expect.fail('Should have thrown an error')
     } catch (error) {
       expect(error.message).toBe('Event is invalid, "data.correlationId" is required. "data.schemeId" is required')
