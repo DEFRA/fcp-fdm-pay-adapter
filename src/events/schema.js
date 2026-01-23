@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-const payment = Joi.object({
+const schema = Joi.object({
   specversion: Joi.string().required(),
   type: Joi.string().required(),
   source: Joi.string().required(),
@@ -27,4 +27,4 @@ const payment = Joi.object({
   })
 }).required()
 
-export default payment
+export default schema
