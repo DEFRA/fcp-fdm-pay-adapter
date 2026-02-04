@@ -15,9 +15,9 @@ export async function processEvent (rawEvent, receiver) {
     if (eventType === 'payment') {
       await validateEvent(event, eventType)
       await publishEvent(event)
-      logger.info({ id: event.id, type: event.type }, 'Event successfully published to FDM')
+      logger.info({ reference: event.id, type: event.type }, 'Event successfully published to FDM')
     } else {
-      logger.info({ id: event.id, type: event.type }, 'Skipping unsupported event type')
+      logger.info({ reference: event.id, type: event.type }, 'Skipping unsupported event type')
     }
 
     await receiver.completeMessage(rawEvent)

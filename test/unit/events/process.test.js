@@ -93,7 +93,7 @@ describe('processEvent', () => {
   test('should log successful processing of payment event', async () => {
     await processEvent(testRawEvent, mockReceiver)
     expect(mockLoggerInfo).toHaveBeenCalledWith(
-      { id: testEvent.id, type: testEvent.type },
+      { reference: testEvent.id, type: testEvent.type },
       'Event successfully published to FDM'
     )
   })
@@ -111,7 +111,7 @@ describe('processEvent', () => {
     expect(mockValidateEvent).not.toHaveBeenCalled()
     expect(mockPublishEvent).not.toHaveBeenCalled()
     expect(mockLoggerInfo).toHaveBeenCalledWith(
-      { id: testEvent.id, type: testEvent.type },
+      { reference: testEvent.id, type: testEvent.type },
       'Skipping unsupported event type'
     )
     expect(mockReceiver.completeMessage).toHaveBeenCalledWith(testRawEvent)
@@ -125,7 +125,7 @@ describe('processEvent', () => {
     expect(mockValidateEvent).not.toHaveBeenCalled()
     expect(mockPublishEvent).not.toHaveBeenCalled()
     expect(mockLoggerInfo).toHaveBeenCalledWith(
-      { id: testEvent.id, type: testEvent.type },
+      { reference: testEvent.id, type: testEvent.type },
       'Skipping unsupported event type'
     )
   })
@@ -138,7 +138,7 @@ describe('processEvent', () => {
     expect(mockValidateEvent).not.toHaveBeenCalled()
     expect(mockPublishEvent).not.toHaveBeenCalled()
     expect(mockLoggerInfo).toHaveBeenCalledWith(
-      { id: testEvent.id, type: testEvent.type },
+      { reference: testEvent.id, type: testEvent.type },
       'Skipping unsupported event type'
     )
   })
