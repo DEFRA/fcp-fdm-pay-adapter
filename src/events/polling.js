@@ -56,10 +56,12 @@ function getWebSocketOptions () {
   const proxyUrl = config.get('httpProxy')
   return proxyUrl
     ? {
-        webSocket: WebSocket,
-        webSocketConstructorOptions: {
-          agent: new HttpsProxyAgent(proxyUrl),
-        },
+        websocketOptions: {
+          webSocket: WebSocket,
+          webSocketConstructorOptions: {
+            agent: new HttpsProxyAgent(proxyUrl),
+          }
+        }
       }
     : {}
 }

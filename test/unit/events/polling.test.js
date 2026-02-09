@@ -25,12 +25,14 @@ vi.mock('@azure/service-bus', () => ({
   ServiceBusClient: mockServiceBusClient
 }))
 
+const mockWebSocket = vi.fn()
 vi.mock('ws', () => ({
-  default: vi.fn()
+  default: mockWebSocket
 }))
 
+const mockHttpsProxyAgent = vi.fn()
 vi.mock('https-proxy-agent', () => ({
-  HttpsProxyAgent: vi.fn()
+  HttpsProxyAgent: mockHttpsProxyAgent
 }))
 
 const mockConfig = {
@@ -243,6 +245,39 @@ describe('Polling', () => {
         expect.objectContaining({
           autoCompleteMessages: false
         })
+      )
+    })
+
+    test('should configure WebSocket with proxy agent when httpProxy is set', async () => {
+      mockConfig.httpProxy = 'http://proxy.example.com:8080'
+      vi.resetModules()
+      pollingModule = await import('../../../src/events/polling.js')
+
+      await pollingModule.pollForEvents()
+
+      expect(mockHttpsProxyAgent).toHaveBeenCalledWith('http://proxy.example.com:8080')
+      expect(mockServiceBusClient).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          websocketOptions: expect.objectContaining({
+            webSocket: mockWebSocket,
+            webSocketConstructorOptions: expect.objectContaining({
+              agent: expect.anything()
+            })
+          })
+        })
+      )
+
+      mockConfig.httpProxy = null
+    })
+
+    test('should not configure WebSocket options when httpProxy is not set', async () => {
+      await pollingModule.pollForEvents()
+
+      expect(mockHttpsProxyAgent).not.toHaveBeenCalled()
+      expect(mockServiceBusClient).toHaveBeenCalledWith(
+        expect.any(String),
+        {}
       )
     })
   })
