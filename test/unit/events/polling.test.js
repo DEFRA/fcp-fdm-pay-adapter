@@ -259,7 +259,7 @@ describe('Polling', () => {
       expect(mockServiceBusClient).toHaveBeenCalledWith(
         expect.any(String),
         expect.objectContaining({
-          websocketOptions: expect.objectContaining({
+          webSocketOptions: expect.objectContaining({
             webSocket: mockWebSocket,
             webSocketConstructorOptions: expect.objectContaining({
               agent: expect.anything()
