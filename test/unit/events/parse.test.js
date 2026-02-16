@@ -74,4 +74,139 @@ describe('parseEvent', () => {
     const result = parseEvent(azureMessage)
     expect(result).toEqual(eventWithEmptyData)
   })
+
+  test('should parse event when body is a valid JSON string', () => {
+    const azureMessage = {
+      body: JSON.stringify(testEvent)
+    }
+    const result = parseEvent(azureMessage)
+    expect(result).toEqual(testEvent)
+  })
+
+  test('should parse complex JSON string with nested objects', () => {
+    const complexEvent = {
+      id: 'test-id-5',
+      type: 'uk.gov.defra.ffc.pay.payment.submitted',
+      source: 'test-source-5',
+      data: {
+        nested: {
+          deeply: {
+            data: 'value'
+          }
+        }
+      }
+    }
+    const azureMessage = {
+      body: JSON.stringify(complexEvent)
+    }
+    const result = parseEvent(azureMessage)
+    expect(result).toEqual(complexEvent)
+  })
+
+  test('should throw validation error when event body is missing', () => {
+    const azureMessage = {}
+    expect(() => parseEvent(azureMessage)).toThrow('Event body is missing')
+
+    try {
+      parseEvent(azureMessage)
+    } catch (error) {
+      expect(error.category).toBe('VALIDATION')
+      expect(error.message).toBe('Event body is missing')
+    }
+  })
+
+  test('should throw validation error when event body is null', () => {
+    const azureMessage = { body: null }
+    expect(() => parseEvent(azureMessage)).toThrow('Event body is missing')
+
+    try {
+      parseEvent(azureMessage)
+    } catch (error) {
+      expect(error.category).toBe('VALIDATION')
+      expect(error.message).toBe('Event body is missing')
+    }
+  })
+
+  test('should throw validation error when event body is undefined', () => {
+    const azureMessage = { body: undefined }
+    expect(() => parseEvent(azureMessage)).toThrow('Event body is missing')
+
+    try {
+      parseEvent(azureMessage)
+    } catch (error) {
+      expect(error.category).toBe('VALIDATION')
+      expect(error.message).toBe('Event body is missing')
+    }
+  })
+
+  test('should throw validation error when event body is an empty string', () => {
+    const azureMessage = { body: '' }
+    expect(() => parseEvent(azureMessage)).toThrow('Event body is missing')
+
+    try {
+      parseEvent(azureMessage)
+    } catch (error) {
+      expect(error.category).toBe('VALIDATION')
+      expect(error.message).toBe('Event body is missing')
+    }
+  })
+
+  test('should throw validation error when event body is not valid JSON string', () => {
+    const azureMessage = {
+      body: 'not valid json'
+    }
+    expect(() => parseEvent(azureMessage)).toThrow('Event body is not valid JSON')
+
+    try {
+      parseEvent(azureMessage)
+    } catch (error) {
+      expect(error.category).toBe('VALIDATION')
+      expect(error.message).toContain('Event body is not valid JSON')
+    }
+  })
+
+  test('should throw validation error when event body is malformed JSON string', () => {
+    const azureMessage = {
+      body: '{"incomplete": '
+    }
+    expect(() => parseEvent(azureMessage)).toThrow('Event body is not valid JSON')
+
+    try {
+      parseEvent(azureMessage)
+    } catch (error) {
+      expect(error.category).toBe('VALIDATION')
+      expect(error.message).toContain('Event body is not valid JSON')
+    }
+  })
+
+  test('should throw validation error when JSON string has trailing comma', () => {
+    const azureMessage = {
+      body: '{"key": "value",}'
+    }
+    expect(() => parseEvent(azureMessage)).toThrow('Event body is not valid JSON')
+
+    try {
+      parseEvent(azureMessage)
+    } catch (error) {
+      expect(error.category).toBe('VALIDATION')
+    }
+  })
+
+  test('should handle number primitives in body gracefully', () => {
+    const azureMessage = { body: 123 }
+    const result = parseEvent(azureMessage)
+    expect(result).toBe(123)
+  })
+
+  test('should handle boolean primitives in body gracefully', () => {
+    const azureMessage = { body: true }
+    const result = parseEvent(azureMessage)
+    expect(result).toBe(true)
+  })
+
+  test('should handle array in body gracefully', () => {
+    const azureMessage = { body: [1, 2, 3] }
+    const result = parseEvent(azureMessage)
+    expect(result).toEqual([1, 2, 3])
+  })
 })
