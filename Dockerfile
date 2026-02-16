@@ -32,7 +32,7 @@ COPY --from=development --chown=root:root /home/node/src ./src
 
 RUN npm ci --omit=dev
 
-# Remove write permission everywhere
+# Remove write permissions
 RUN chmod -R a-w /home/node
 
 USER node
