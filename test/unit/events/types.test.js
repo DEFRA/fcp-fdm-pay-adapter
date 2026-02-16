@@ -101,8 +101,42 @@ describe('getEventType', () => {
       getEventType('')
       expect.fail('Should have thrown an error')
     } catch (error) {
-      expect(error.message).toBe('Unknown event type: ')
+      expect(error.message).toBe('Event type is required')
       expect(error.category).toBe('VALIDATION')
     }
+  })
+
+  test('should throw error with VALIDATION category for undefined event type', () => {
+    try {
+      getEventType(undefined)
+      expect.fail('Should have thrown an error')
+    } catch (error) {
+      expect(error.message).toBe('Event type is required')
+      expect(error.category).toBe('VALIDATION')
+    }
+  })
+
+  test('should throw error with VALIDATION category for null event type', () => {
+    try {
+      getEventType(null)
+      expect.fail('Should have thrown an error')
+    } catch (error) {
+      expect(error.message).toBe('Event type is required')
+      expect(error.category).toBe('VALIDATION')
+    }
+  })
+
+  test('should throw error with VALIDATION category for non-string event type', () => {
+    const nonStringValues = [123, { type: 'test' }, ['array'], true]
+
+    nonStringValues.forEach(value => {
+      try {
+        getEventType(value)
+        expect.fail('Should have thrown an error')
+      } catch (error) {
+        expect(error.message).toBe('Event type must be a string')
+        expect(error.category).toBe('VALIDATION')
+      }
+    })
   })
 })

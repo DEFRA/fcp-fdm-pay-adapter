@@ -1,17 +1,33 @@
+const EVENT_TYPE_PREFIX = 'uk.gov.defra.ffc.pay.'
+const EVENT_TYPE_MAP = {
+  payment: `${EVENT_TYPE_PREFIX}payment.`,
+  hold: `${EVENT_TYPE_PREFIX}hold.`,
+  warning: `${EVENT_TYPE_PREFIX}warning.`,
+  batch: `${EVENT_TYPE_PREFIX}batch.`
+}
+
+function createValidationError (message) {
+  const error = new Error(message)
+  error.category = 'VALIDATION'
+  return error
+}
+
 function getEventType (type) {
-  if (type.startsWith('uk.gov.defra.ffc.pay.payment.')) {
-    return 'payment'
-  } else if (type.startsWith('uk.gov.defra.ffc.pay.hold.')) {
-    return 'hold'
-  } else if (type.startsWith('uk.gov.defra.ffc.pay.warning.')) {
-    return 'warning'
-  } else if (type.startsWith('uk.gov.defra.ffc.pay.batch.')) {
-    return 'batch'
-  } else {
-    const error = new Error(`Unknown event type: ${type}`)
-    error.category = 'VALIDATION'
-    throw error
+  if (!type) {
+    throw createValidationError('Event type is required')
   }
+
+  if (typeof type !== 'string') {
+    throw createValidationError('Event type must be a string')
+  }
+
+  for (const [eventType, prefix] of Object.entries(EVENT_TYPE_MAP)) {
+    if (type.startsWith(prefix)) {
+      return eventType
+    }
+  }
+
+  throw createValidationError(`Unknown event type: ${type}`)
 }
 
 export { getEventType }
