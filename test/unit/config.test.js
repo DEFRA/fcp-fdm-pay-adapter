@@ -23,7 +23,7 @@ describe('config', () => {
     process.env.TRACING_HEADER = 'x-custom-trace-id'
     process.env.ACTIVE = 'true'
     process.env.AWS_REGION = 'eu-west-2'
-    process.env.AWS_ENDPOINT_URL = 'http://localstack:4566'
+    process.env.AWS_ENDPOINT_URL = 'http://floci:4566'
     process.env.AWS_ACCESS_KEY_ID = 'test-key-id'
     process.env.AWS_SECRET_ACCESS_KEY = 'test-secret-key'
     process.env.AWS_SNS_TOPIC_ARN = 'arn:aws:sns:eu-west-2:000000000000:test-topic'
@@ -208,7 +208,7 @@ describe('config', () => {
 
   test('should return AWS endpoint URL from environment variable', async () => {
     const { config } = await import('../../src/config.js')
-    expect(config.get('aws.endpoint')).toBe('http://localstack:4566')
+    expect(config.get('aws.endpoint')).toBe('http://floci:4566')
   })
 
   test('should default AWS endpoint URL to null if not provided in environment variable', async () => {
