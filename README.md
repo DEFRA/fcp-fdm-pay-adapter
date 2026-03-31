@@ -5,7 +5,6 @@
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_fcp-fdm-pay-adapter&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=DEFRA_fcp-fdm-pay-adapter)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_fcp-fdm-pay-adapter&metric=coverage)](https://sonarcloud.io/summary/new_code?id=DEFRA_fcp-fdm-pay-adapter)
 [![Dependabot](https://img.shields.io/badge/dependabot-enabled-025E8C?logo=dependabot)](https://github.com/DEFRA/fcp-fdm-pay-adapter/blob/main/.github/dependabot.yml)
-[![Dependency Review](https://github.com/DEFRA/fcp-fdm-pay-adapter/actions/workflows/check-pull-request.yml/badge.svg)](https://github.com/DEFRA/fcp-fdm-pay-adapter/actions/workflows/check-pull-request.yml)
 
 # Farming Data Model (FDM) Payment Hub Adapter
 
