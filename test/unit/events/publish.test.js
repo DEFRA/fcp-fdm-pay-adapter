@@ -4,10 +4,10 @@ const mockSend = vi.fn()
 const mockPublishCommand = vi.fn()
 
 vi.mock('@aws-sdk/client-sns', () => ({
-  SNSClient: vi.fn().mockImplementation(() => ({
-    send: mockSend
-  })),
-  PublishCommand: vi.fn().mockImplementation((params) => {
+  SNSClient: vi.fn().mockImplementation(function () {
+    return { send: mockSend }
+  }),
+  PublishCommand: vi.fn().mockImplementation(function (params) {
     mockPublishCommand(params)
     return params
   })
