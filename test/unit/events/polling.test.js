@@ -83,7 +83,7 @@ describe('Polling', () => {
       close: vi.fn()
     }
 
-    mockServiceBusClient.mockReturnValue(mockSbClient)
+    mockServiceBusClient.mockImplementation(function () { return mockSbClient })
     mockProcessEvent.mockResolvedValue(undefined)
 
     pollingModule = await import('../../../src/events/polling.js')
