@@ -6,9 +6,11 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_fcp-fdm-pay-adapter&metric=coverage)](https://sonarcloud.io/summary/new_code?id=DEFRA_fcp-fdm-pay-adapter)
 [![Dependabot](https://img.shields.io/badge/dependabot-enabled-025E8C?logo=dependabot)](https://github.com/DEFRA/fcp-fdm-pay-adapter/blob/main/.github/dependabot.yml)
 
-# Farming Data Model (FDM) Payment Hub Adapter
+# Farming Operation Data Store (FODS) Payment Hub Adapter
 
-The FDM Payment Hub Adapter consumes payment events from Azure Service Bus and forwards them to the CDP hosted Farming Data Model.
+The FODS Payment Hub Adapter consumes payment events from Azure Service Bus and forwards them to the CDP hosted Farming Operation Data Store.
+
+> **Note:** The Farming Data Model (FDM) has been rebranded as the Farming Operation Data Store (FODS). The repository, service name, CDP resources, queues and topics retain the `fdm` identifier for backwards compatibility and should not be renamed.
 
 ## Requirements
 
