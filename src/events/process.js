@@ -11,7 +11,7 @@ export async function processEvent (rawEvent, receiver) {
     const event = parseEvent(rawEvent)
     const eventType = getEventType(event.type)
 
-    // FDM is currently only interested in events related to payment requests
+    // FODS is currently only interested in events related to payment requests
     if (eventType === 'payment') {
       await validateEvent(event, eventType)
       await publishEvent(event)
