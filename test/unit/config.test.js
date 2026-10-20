@@ -143,10 +143,23 @@ describe('config', () => {
     expect(config.get('httpProxy')).toBe('http://proxy:8080')
   })
 
-  test('should return null http proxy if not provided in environment variable', async () => {
+  test.each([
+    ['not set', undefined],
+    ['local', 'local']
+  ])('should allow http proxy to be omitted when environment is %s', async (_name, environment) => {
+    if (environment) {
+      process.env.ENVIRONMENT = environment
+    } else {
+      delete process.env.ENVIRONMENT
+    }
     delete process.env.HTTP_PROXY
     const { config } = await import('../../src/config.js')
     expect(config.get('httpProxy')).toBeNull()
+  })
+
+  test('should throw error if http proxy is not provided in a CDP environment', async () => {
+    delete process.env.HTTP_PROXY
+    await expect(async () => await import('../../src/config.js')).rejects.toThrow('httpProxy')
   })
 
   test('should return secure context enabled from environment variable', async () => {
