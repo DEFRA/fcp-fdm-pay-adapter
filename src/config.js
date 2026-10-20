@@ -5,6 +5,7 @@ convict.addFormats(convictFormatWithValidator)
 
 const isProduction = process.env.NODE_ENV === 'production'
 const isTest = process.env.NODE_ENV === 'test'
+const isCdpEnvironment = Boolean(process.env.ENVIRONMENT) && process.env.ENVIRONMENT !== 'local'
 
 const config = convict({
   serviceVersion: {
@@ -152,10 +153,11 @@ const config = convict({
       }
     }
   },
+  // Outbound traffic must go through the proxy in CDP, so it is only optional locally.
   httpProxy: {
-    doc: 'HTTP Proxy URL',
+    doc: 'HTTP Proxy URL, required in CDP environments (set automatically by CDP)',
     format: String,
-    nullable: true,
+    nullable: !isCdpEnvironment,
     default: null,
     env: 'HTTP_PROXY'
   },
