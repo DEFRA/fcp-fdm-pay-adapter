@@ -12,7 +12,7 @@ const message = {
   subject: 'Payment request enriched',
   datacontenttype: 'text/json',
   data: {
-    frn: 1234567890,
+    frn: 9234567890,
     schemeId: 1,
     correlationId: '123e4567-e89b-12d3-a456-426655440000',
     invoiceNumber: 'S1234567S1234567V001'

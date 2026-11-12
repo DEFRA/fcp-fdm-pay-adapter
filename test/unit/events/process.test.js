@@ -44,7 +44,7 @@ const testEvent = {
     correlationId: 'test-correlation-id',
     schemeId: 1,
     invoiceNumber: 'INV-123',
-    frn: 1234567890
+    frn: 9234567890
   }
 }
 

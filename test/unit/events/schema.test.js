@@ -7,11 +7,11 @@ describe('payment schema', () => {
     specversion: '1.0',
     type: 'uk.gov.defra.ffc.pay.payment.submitted',
     source: 'test-source',
-    id: '12345678-1234-1234-1234-123456789012',
+    id: '12345678-1234-1234-1234-923456789012',
     time: new Date('2026-01-01T00:00:00.000Z'),
     data: {
-      frn: 1234567890,
-      correlationId: '12345678-1234-1234-1234-123456789012',
+      frn: 9234567890,
+      correlationId: '12345678-1234-1234-1234-923456789012',
       schemeId: 1,
       invoiceNumber: 'INV-123'
     }
@@ -28,7 +28,7 @@ describe('payment schema', () => {
       data: {
         ...validEvent.data,
         frn: undefined,
-        sbi: 987654321
+        sbi: 887654321
       }
     }
     const result = schema.validate(eventWithSbi)
@@ -66,8 +66,8 @@ describe('payment schema', () => {
       ...validEvent,
       data: {
         ...validEvent.data,
-        frn: 1234567890,
-        sbi: 987654321,
+        frn: 9234567890,
+        sbi: 887654321,
         trader: 'TEST-TRADER-123',
         vendor: 'TEST-VENDOR-456'
       }
@@ -80,7 +80,7 @@ describe('payment schema', () => {
     const eventWithoutIdentifiers = {
       ...validEvent,
       data: {
-        correlationId: '12345678-1234-1234-1234-123456789012',
+        correlationId: '12345678-1234-1234-1234-923456789012',
         schemeId: 1,
         invoiceNumber: 'INV-123'
       }
@@ -281,7 +281,7 @@ describe('payment schema', () => {
       data: {
         ...validEvent.data,
         frn: '',
-        sbi: 987654321
+        sbi: 887654321
       }
     }
     const result = schema.validate(eventWithEmptyFrn)
