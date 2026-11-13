@@ -58,7 +58,7 @@ describe('publishEvent', () => {
         correlationId: 'test-correlation-id',
         schemeId: 1,
         invoiceNumber: 'INV-123',
-        frn: 1234567890
+        frn: 9234567890
       }
     }
 
@@ -84,8 +84,8 @@ describe('publishEvent', () => {
       subject: 'test-subject',
       datacontenttype: 'application/json',
       data: {
-        frn: 1234567890,
-        sbi: 987654321,
+        frn: 9234567890,
+        sbi: 887654321,
         correlationId: 'test-correlation-id-2',
         schemeId: 2,
         invoiceNumber: 'INV-456'
